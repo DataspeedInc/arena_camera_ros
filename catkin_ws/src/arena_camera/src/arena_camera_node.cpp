@@ -756,7 +756,6 @@ void ArenaCameraNode::spin()
 
     if (getNumSubscribersRect() > 0 && camera_info_manager_->isCalibrated())
     {
-     // cv_bridge_img_rect_->header.stamp = img_raw_msg_.header.stamp;
       cv_bridge_img_rect_->header = img_raw_msg_.header;
       cv_bridge_img_rect_->encoding = img_raw_msg_.encoding;
       ROS_INFO_ONCE("extract header and encoding");
@@ -765,7 +764,6 @@ void ArenaCameraNode::spin()
       pinhole_model_->fromCameraInfo(camera_info_manager_->getCameraInfo());
       pinhole_model_->rectifyImage(cv_img_raw->image, cv_bridge_img_rect_->image);
       img_rect_pub_->publish(*cv_bridge_img_rect_);
-      ROS_INFO_ONCE("Number subscribers rect received");
     }
   }
 }
