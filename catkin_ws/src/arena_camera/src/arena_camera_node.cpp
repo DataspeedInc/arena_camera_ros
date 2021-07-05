@@ -165,8 +165,16 @@ bool createDevice(const std::string& device_user_id_to_open)
   {
     if (device_user_id_to_open.empty())
     {
-      pDevice_ = pSystem_->CreateDevice(deviceInfos[0]);
-      return true;
+      try {
+        pDevice_ = pSystem_->CreateDevice(deviceInfos[0]);
+        return true;
+      } catch (GenICam::RuntimeException& ex) {
+        ROS_ERROR_STREAM("[Runtime exception" << ex.what());
+        return false;
+      } catch (GenICam::GenericException& ex) {
+        ROS_ERROR_STREAM("[Generic exception" << ex.what());
+        return false;
+      }
     }
     else
     {
@@ -190,8 +198,16 @@ bool createDevice(const std::string& device_user_id_to_open)
       {
         ROS_INFO_STREAM("Found the desired camera with DeviceUserID " << device_user_id_to_open << ": ");
 
-        pDevice_ = pSystem_->CreateDevice(*it);
-        return true;
+        try {
+          pDevice_ = pSystem_->CreateDevice(*it);
+          return true;
+        } catch (GenICam::RuntimeException& ex) {
+          ROS_ERROR_STREAM("[Runtime exception" << ex.what());
+          return false;
+        } catch (GenICam::GenericException& ex) {
+          ROS_ERROR_STREAM("[Generic exception" << ex.what());
+          return false;
+        }
       }
       else
       {
