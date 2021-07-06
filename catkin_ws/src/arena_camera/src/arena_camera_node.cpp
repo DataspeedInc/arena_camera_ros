@@ -170,9 +170,13 @@ bool createDevice(const std::string& device_user_id_to_open)
         return true;
       } catch (GenICam::RuntimeException& ex) {
         ROS_ERROR_STREAM("[Runtime exception" << ex.what());
+        Arena::CloseSystem(pSystem_);
+        pSystem_ = nullptr;
         return false;
       } catch (GenICam::GenericException& ex) {
         ROS_ERROR_STREAM("[Generic exception" << ex.what());
+        Arena::CloseSystem(pSystem_);
+        pSystem_ = nullptr;
         return false;
       }
     }
@@ -203,9 +207,13 @@ bool createDevice(const std::string& device_user_id_to_open)
           return true;
         } catch (GenICam::RuntimeException& ex) {
           ROS_ERROR_STREAM("[Runtime exception" << ex.what());
+          Arena::CloseSystem(pSystem_);
+          pSystem_ = nullptr;
           return false;
         } catch (GenICam::GenericException& ex) {
           ROS_ERROR_STREAM("[Generic exception" << ex.what());
+          Arena::CloseSystem(pSystem_);
+          pSystem_ = nullptr;
           return false;
         }
       }
